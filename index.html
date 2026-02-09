@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TermMaster | プログラミング用語学習</title>
+    <meta name="description" content="効率的にプログラミング用語をマスターするための学習アプリ。4段階の習得度管理とテストモードを搭載。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="app-container">
+        <!-- Home Screen -->
+        <section id="home-screen" class="screen active">
+            <header>
+                <h1 class="logo">Term<span>Master</span></h1>
+                <p class="subtitle">効率的に、確実に、知識を定着させる</p>
+            </header>
+
+            <div class="stats-overview glass">
+                <div class="stat-item">
+                    <span class="stat-label">習得済み</span>
+                    <span id="stat-learned" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">進行中</span>
+                    <span id="stat-ongoing" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">未着手</span>
+                    <span id="stat-unseen" class="stat-value">0</span>
+                </div>
+            </div>
+
+            <div class="mode-selection">
+                <div class="card glass interactive" id="btn-learning-mode">
+                    <div class="card-icon">📖</div>
+                    <h3>学習モード</h3>
+                    <p>優先度に基づいた出題で効率よく学習</p>
+                </div>
+                <div class="card glass interactive" id="btn-test-mode-select">
+                    <div class="card-icon">📝</div>
+                    <h3>テストモード</h3>
+                    <p>自分の実力を100点満点で判定</p>
+                </div>
+            </div>
+
+            <div class="category-info">
+                <h4>学習対象カテゴリー</h4>
+                <div class="category-tags">
+                    <span class="tag">Webデザイン</span>
+                    <span class="tag">略語</span>
+                    <span class="tag">パソコン</span>
+                    <span class="tag">IT</span>
+                    <span class="tag">最新IT</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Mode Selection -->
+        <section id="test-select-screen" class="screen">
+            <button class="btn-back" id="btn-back-to-home-test">← 戻る</button>
+            <h2>テスト問題数を選択</h2>
+            <div class="test-options">
+                <button class="btn glass interactive test-opt" data-count="10">
+                    <span class="opt-num">10</span>
+                    <span class="opt-desc">重要項目 (3&4)</span>
+                </button>
+                <button class="btn glass interactive test-opt" data-count="50">
+                    <span class="opt-num">50</span>
+                    <span class="opt-desc">幅広く (2, 3, 4)</span>
+                </button>
+                <button class="btn glass interactive test-opt" data-count="100">
+                    <span class="opt-num">All</span>
+                    <span class="opt-desc">全範囲 (1〜4)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Learning Card Screen -->
+        <section id="learning-screen" class="screen">
+            <div class="screen-header">
+                <button class="btn-back" id="btn-back-to-home">← 戻る</button>
+                <span class="current-category" id="learn-category">---</span>
+            </div>
+
+            <div class="flip-card-container">
+                <div class="flip-card" id="main-card">
+                    <div class="card-front glass">
+                        <div class="term-box">
+                            <h2 id="card-term-front">---</h2>
+                            <p id="card-reading-front">---</p>
+                        </div>
+                        <p class="hint">クリックして回答を表示</p>
+                    </div>
+                    <div class="card-back glass">
+                        <div class="answer-box">
+                            <h2 id="card-term-back">---</h2>
+                            <p id="card-definition">---</p>
+                        </div>
+                        <div class="status-selection" id="learning-actions">
+                            <button class="btn-status s1" data-status="1">1. 知ってる</button>
+                            <button class="btn-status s2" data-status="2">2. 覚えた</button>
+                            <button class="btn-status s3" data-status="3">3. 理解した</button>
+                            <button class="btn-status s4" data-status="4">4. 難しい</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Quiz Screen -->
+        <section id="test-screen" class="screen">
+            <div class="screen-header">
+                <span id="test-progress">Question 1/10</span>
+                <div class="progress-bar-bg">
+                    <div id="test-progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="test-card glass">
+                <div class="test-question">
+                    <h2 id="test-term">---</h2>
+                    <p id="test-reading">---</p>
+                </div>
+                
+                <div class="test-answer-area hidden" id="test-answer-area">
+                    <hr>
+                    <p id="test-definition">---</p>
+                    <div class="test-actions">
+                        <button class="btn-judge correct" id="btn-correct">正解 🎉</button>
+                        <button class="btn-judge incorrect" id="btn-incorrect">不正解 ❌</button>
+                    </div>
+                </div>
+
+                <button class="btn-show-answer" id="btn-show-test-answer">回答を表示</button>
+            </div>
+        </section>
+
+        <!-- Result Screen -->
+        <section id="result-screen" class="screen">
+            <div class="result-glass glass">
+                <div class="result-header">
+                    <h2>テスト結果</h2>
+                    <div class="score-circle">
+                        <span id="final-score">0</span>
+                        <span class="total-pt">/ 100</span>
+                    </div>
+                </div>
+                <div class="result-details">
+                    <p id="result-message">素晴らしい！</p>
+                    <div class="result-stats">
+                        <div>正解: <span id="res-correct">0</span></div>
+                        <div>不正解: <span id="res-incorrect">0</span></div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-back-home-result">ホームに戻る</button>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
