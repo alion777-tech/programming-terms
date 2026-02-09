@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,12 @@
     <meta name="description" content="効率的にプログラミング用語をマスターするための学習アプリ。4段階の習得度管理とテストモードを搭載。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="background-blobs">
         <div class="blob blob-1"></div>
@@ -54,8 +58,10 @@
             </div>
 
             <div class="category-info">
-                <h4>学習対象カテゴリー</h4>
-                <div class="category-tags">
+                <h4>学習可能カテゴリー</h4>
+                <div class="category-tags" id="home-category-list">
+                    <!-- JSで動的に追加も可能だが静的に置いておく -->
+                    <span class="tag">プログラミング用語</span>
                     <span class="tag">Webデザイン</span>
                     <span class="tag">略語</span>
                     <span class="tag">パソコン</span>
@@ -131,7 +137,7 @@
                     <h2 id="test-term">---</h2>
                     <p id="test-reading">---</p>
                 </div>
-                
+
                 <div class="test-answer-area hidden" id="test-answer-area">
                     <hr>
                     <p id="test-definition">---</p>
@@ -167,6 +173,9 @@
         </section>
     </main>
 
-    <script type="module" src="app.js"></script>
+    <!-- data.jsを先に読み込み、app.jsを後に読み込む（type="module"を外して互換性を確保） -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
