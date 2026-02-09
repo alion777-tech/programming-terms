@@ -1,11 +1,11 @@
 /**
  * TermApp Class
- * 言語学習アプリのメインロジック
+ * 言語学習アプリのメインロジック (プログラミング用語専用版)
  */
 class TermApp {
     constructor() {
         this.terms = [];
-        this.userStats = {}; // { id: { status: 1-4, lastSeen: timestamp } }
+        this.userStats = {};
         this.currentScreen = 'home-screen';
         this.currentTerm = null;
         this.testQueue = [];
@@ -23,34 +23,24 @@ class TermApp {
     }
 
     loadData() {
-        // localStorageから進捗を読み込む
         const savedStats = localStorage.getItem('term-master-progress');
         if (savedStats) {
             try {
                 this.userStats = JSON.parse(savedStats);
             } catch (e) {
-                console.error("Failed to parse saved stats", e);
                 this.userStats = {};
             }
         }
 
-        // data.jsで定義された global の termCategories を平坦化して配列にする
-        this.terms = [];
-        if (typeof termCategories !== 'undefined') {
-            for (const category in termCategories) {
-                termCategories[category].forEach(item => {
-                    // カテゴリ情報を付与
-                    this.terms.push({
-                        ...item,
-                        category: category
-                    });
-                });
-            }
+        // data.js で定義された global の programmingTerms を使用
+        if (typeof programmingTerms !== 'undefined') {
+            this.terms = programmingTerms;
         } else {
-            console.error("termCategories is not defined. Check data.js path.");
+            console.error("programmingTerms is not defined in data.js");
+            // バックアップ
+            this.terms = [{ id: "error", term: "Data Load Error", reading: "エラー", definition: "data.jsが正しく読み込まれていません。", category: "System" }];
         }
 
-        // すべての単語に対してステータスの初期値を確認
         this.terms.forEach(term => {
             if (!this.userStats[term.id]) {
                 this.userStats[term.id] = { status: null, lastSeen: 0 };
@@ -85,14 +75,12 @@ class TermApp {
     }
 
     bindEvents() {
-        // ホーム画面のボタン
         const btnLearn = document.getElementById('btn-learning-mode');
         const btnTestSelect = document.getElementById('btn-test-mode-select');
 
         if (btnLearn) btnLearn.onclick = () => this.startLearning();
         if (btnTestSelect) btnTestSelect.onclick = () => this.switchScreen('test-select-screen');
 
-        // 戻るボタン
         const backToHome = document.getElementById('btn-back-to-home');
         const backToHomeTest = document.getElementById('btn-back-to-home-test');
         const backToHomeResult = document.getElementById('btn-back-home-result');
@@ -101,21 +89,18 @@ class TermApp {
         if (backToHomeTest) backToHomeTest.onclick = () => this.switchScreen('home-screen');
         if (backToHomeResult) backToHomeResult.onclick = () => this.switchScreen('home-screen');
 
-        // 学習カードのクリック（裏返す）
         const mainCard = document.getElementById('main-card');
         if (mainCard) {
             mainCard.onclick = (e) => {
-                // ボタンクリック時は発火させない
                 if (!e.target.closest('.btn-status')) {
                     mainCard.classList.toggle('flipped');
                 }
             };
         }
 
-        // 学習ステータスボタン (1-4)
         document.querySelectorAll('.btn-status').forEach(btn => {
             btn.onclick = (e) => {
-                e.stopPropagation(); // 親のカードクリックイベントを防ぐ
+                e.stopPropagation();
                 const status = parseInt(btn.getAttribute('data-status'));
                 if (this.currentTerm) {
                     this.updateTermStatus(this.currentTerm.id, status);
@@ -124,18 +109,14 @@ class TermApp {
             };
         });
 
-        // テスト問題数選択
         document.querySelectorAll('.test-opt').forEach(btn => {
             btn.onclick = () => {
                 const countAttr = btn.getAttribute('data-count');
-                const count = countAttr === 'low' ? 10 : (countAttr === 'mid' ? 50 : 100);
-                // HTML側の data-count が 10, 50, 100 の場合はそのまま使う
-                const actualCount = isNaN(parseInt(countAttr)) ? count : parseInt(countAttr);
-                this.startTest(actualCount);
+                const count = parseInt(countAttr);
+                this.startTest(isNaN(count) ? 300 : count);
             };
         });
 
-        // テスト中の回答表示ボタン
         const btnShowTestAnswer = document.getElementById('btn-show-test-answer');
         if (btnShowTestAnswer) {
             btnShowTestAnswer.onclick = () => {
@@ -145,7 +126,6 @@ class TermApp {
             };
         }
 
-        // テストの判定ボタン
         const btnCorrect = document.getElementById('btn-correct');
         const btnIncorrect = document.getElementById('btn-incorrect');
 
@@ -160,7 +140,7 @@ class TermApp {
         this.currentScreen = screenId;
     }
 
-    // --- 学習モードロジック ---
+    // --- Learning Mode ---
     startLearning() {
         this.switchScreen('learning-screen');
         this.nextLearningTerm();
@@ -170,30 +150,28 @@ class TermApp {
         const now = Date.now();
         const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
 
-        // 出題プールを作成
         let pool = this.terms.filter(t => {
             const s = this.userStats[t.id];
-            if (s.status === 1) return false; // 「知ってる」は出さない
+            if (s.status === 1) return false;
             if (s.status === 2) {
-                return (now - s.lastSeen) > threeDaysMs; // 「覚えた」は3日後に出す
+                return (now - s.lastSeen) > threeDaysMs;
             }
             return true;
         });
 
         if (pool.length === 0) {
-            alert("学習できる単語が現在ありません！「覚えた」単語の復活を待つか、新しいデータを追加してください。");
+            alert("すべての単語を習得しました！");
             this.switchScreen('home-screen');
             return;
         }
 
-        // 重み付け
         const weightedPool = [];
         pool.forEach(t => {
             const s = this.userStats[t.id];
             let weight = 1;
-            if (s.status === 4) weight = 10; // 難しい（最優先）
-            else if (s.status === 3) weight = 5;  // 理解した（優先）
-            else if (s.status === null || s.status === undefined) weight = 3; // 未着手
+            if (s.status === 4) weight = 10;
+            else if (s.status === 3) weight = 5;
+            else if (s.status === null || s.status === undefined) weight = 3;
 
             for (let i = 0; i < weight; i++) weightedPool.push(t);
         });
@@ -207,7 +185,6 @@ class TermApp {
         const card = document.getElementById('main-card');
         if (card) card.classList.remove('flipped');
 
-        // アニメーション待ちのため少し遅延させて内容を更新
         setTimeout(() => {
             const elFrontTerm = document.getElementById('card-term-front');
             const elFrontRead = document.getElementById('card-reading-front');
@@ -220,7 +197,7 @@ class TermApp {
             if (elBackTerm) elBackTerm.textContent = term.term;
             if (elDef) elDef.textContent = term.definition;
             if (elCat) elCat.textContent = term.category;
-        }, 300);
+        }, 250);
     }
 
     updateTermStatus(id, status) {
@@ -231,28 +208,24 @@ class TermApp {
         this.saveData();
     }
 
-    // --- テストモードロジック ---
+    // --- Test Mode ---
     startTest(count) {
         let pool = [];
         if (count === 10) {
-            // ステータス 3 & 4
             pool = this.terms.filter(t => [3, 4].includes(this.userStats[t.id].status));
         } else if (count === 50) {
-            // ステータス 2, 3, 4
             pool = this.terms.filter(t => [2, 3, 4].includes(this.userStats[t.id].status));
         } else {
-            // すべて
             pool = [...this.terms];
         }
 
-        // シャッフル
         this.testQueue = pool.sort(() => Math.random() - 0.5);
-        if (count < 100 && this.testQueue.length > count) {
+        if (this.testQueue.length > count) {
             this.testQueue = this.testQueue.slice(0, count);
         }
 
         if (this.testQueue.length === 0) {
-            alert("テスト対象の用語がありません。まずは学習モードで習得度を設定してください。");
+            alert("テスト対象の用語がありません。まずは学習モードで進めてください。");
             return;
         }
 
@@ -297,7 +270,6 @@ class TermApp {
             this.testResults.correct++;
         } else {
             this.testResults.incorrect++;
-            // ステータス 1 や 2 を間違えた場合、3 (理解した) へ移動させる
             if (stat.status === 1 || stat.status === 2) {
                 this.updateTermStatus(term.id, 3);
             }
@@ -319,17 +291,15 @@ class TermApp {
         if (elCorrect) elCorrect.textContent = this.testResults.correct;
         if (elIncorrect) elIncorrect.textContent = this.testResults.incorrect;
 
-        let msg = "よく頑張りました！";
-        if (score === 100) msg = "パーフェクト！素晴らしいです！";
-        else if (score >= 80) msg = "合格点です！この調子で続けましょう。";
-        else if (score >= 60) msg = "もう少しでマスターです。復習を頑張りましょう。";
+        let msg = "素晴らしい成果です！";
+        if (score === 100) msg = "満点！マスター達成です！";
+        else if (score >= 80) msg = "高得点です！この調子！";
 
         if (elMsg) elMsg.textContent = msg;
         this.switchScreen('result-screen');
     }
 }
 
-// アプリケーションの起動
 window.onload = () => {
     window.app = new TermApp();
 };
