@@ -4,7 +4,12 @@
  */
 class TermApp {
     constructor() {
+        this.allTerms = {
+            programming: [],
+            design: []
+        };
         this.terms = [];
+        this.currentCategory = 'programming';
         this.userStats = {};
         this.currentScreen = 'home-screen';
         this.currentTerm = null;
@@ -19,10 +24,11 @@ class TermApp {
         console.log("App Initializing...");
         this.loadData();
         this.bindEvents();
-        this.updateStatsDisplay();
+        this.switchCategory(this.currentCategory);
     }
 
     loadData() {
+        // 保存された進捗を読み込み
         const savedStats = localStorage.getItem('term-master-progress');
         if (savedStats) {
             try {
@@ -32,20 +38,40 @@ class TermApp {
             }
         }
 
-        // data.js で定義された global の programmingTerms を使用
-        if (typeof programmingTerms !== 'undefined') {
-            this.terms = programmingTerms;
-        } else {
-            console.error("programmingTerms is not defined in data.js");
-            // バックアップ
-            this.terms = [{ id: "error", term: "Data Load Error", reading: "エラー", definition: "data.jsが正しく読み込まれていません。", category: "System" }];
-        }
+        // data.js で定義された global 変数を使用
+        if (typeof programmingTerms !== 'undefined') this.allTerms.programming = programmingTerms;
+        if (typeof webDesignTerms !== 'undefined') this.allTerms.design = webDesignTerms;
+        if (typeof pcTerms !== 'undefined') this.allTerms.pc = pcTerms;
+        if (typeof itTerms !== 'undefined') this.allTerms.it = itTerms;
 
-        this.terms.forEach(term => {
+        // すべての単語の統計を初期化
+        const combine = [
+            ...this.allTerms.programming,
+            ...this.allTerms.design,
+            ...this.allTerms.pc,
+            ...this.allTerms.it
+        ];
+        combine.forEach(term => {
             if (!this.userStats[term.id]) {
                 this.userStats[term.id] = { status: null, lastSeen: 0 };
             }
         });
+    }
+
+    switchCategory(categoryKey) {
+        this.currentCategory = categoryKey;
+        this.terms = this.allTerms[categoryKey] || [];
+
+        // UIの更新 (タグのアクティブ状態)
+        document.querySelectorAll('.tag.interactive').forEach(tag => {
+            if (tag.getAttribute('data-category') === categoryKey) {
+                tag.classList.add('active');
+            } else {
+                tag.classList.remove('active');
+            }
+        });
+
+        this.updateStatsDisplay();
     }
 
     saveData() {
@@ -58,6 +84,7 @@ class TermApp {
         let ongoing = 0;
         let unseen = 0;
 
+        // 現在選択中のカテゴリーのみ集計
         this.terms.forEach(term => {
             const stat = this.userStats[term.id];
             if (stat.status === 1 || stat.status === 2) learned++;
@@ -75,6 +102,14 @@ class TermApp {
     }
 
     bindEvents() {
+        // カテゴリー切り替え
+        document.querySelectorAll('.tag.interactive').forEach(tag => {
+            tag.onclick = () => {
+                const cat = tag.getAttribute('data-category');
+                if (cat) this.switchCategory(cat);
+            };
+        });
+
         const btnLearn = document.getElementById('btn-learning-mode');
         const btnTestSelect = document.getElementById('btn-test-mode-select');
 
@@ -113,7 +148,7 @@ class TermApp {
             btn.onclick = () => {
                 const countAttr = btn.getAttribute('data-count');
                 const count = parseInt(countAttr);
-                this.startTest(isNaN(count) ? 300 : count);
+                this.startTest(count);
             };
         });
 
@@ -201,7 +236,11 @@ class TermApp {
             // Google検索リンクの更新
             const elSearch = document.getElementById('learn-google-link');
             if (elSearch) {
-                elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+とは+プログラミング`;
+                let suffix = 'とは+プログラミング';
+                if (this.currentCategory === 'design') suffix = 'とは+Webデザイン';
+                else if (this.currentCategory === 'pc') suffix = 'とは+パソコン用語';
+                else if (this.currentCategory === 'it') suffix = 'とは+IT用語';
+                elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+${suffix}`;
             }
         }, 250);
     }
@@ -215,25 +254,28 @@ class TermApp {
     }
 
     // --- Test Mode ---
-    startTest(count) {
+    startTest(requestedCount) {
         let pool = [];
-        if (count === 10) {
-            pool = this.terms.filter(t => [3, 4].includes(this.userStats[t.id].status));
-        } else if (count === 50) {
-            pool = this.terms.filter(t => [2, 3, 4].includes(this.userStats[t.id].status));
-        } else {
-            pool = [...this.terms];
-        }
+        // カテゴリー内の全単語をプールにする
+        pool = [...this.terms];
 
-        this.testQueue = pool.sort(() => Math.random() - 0.5);
-        if (this.testQueue.length > count) {
-            this.testQueue = this.testQueue.slice(0, count);
-        }
-
-        if (this.testQueue.length === 0) {
-            alert("テスト対象の用語がありません。まずは学習モードで進めてください。");
+        if (pool.length === 0) {
+            alert("テスト対象の用語がありません。");
             return;
         }
+
+        // 基本のランダムキュー作成
+        let queue = [];
+        const shuffledPool = [...pool].sort(() => Math.random() - 0.5);
+
+        // 指定された数に満たない場合、プールを繰り返して埋める
+        while (queue.length < requestedCount) {
+            const nextBatch = [...pool].sort(() => Math.random() - 0.5);
+            queue = queue.concat(nextBatch);
+        }
+
+        // 指定された数で切り出す
+        this.testQueue = queue.slice(0, requestedCount);
 
         this.testResults = { correct: 0, incorrect: 0, total: this.testQueue.length };
         this.currentIndex = 0;
@@ -267,7 +309,11 @@ class TermApp {
         // Google検索リンクの更新 (テストモード用)
         const elSearch = document.getElementById('test-google-link');
         if (elSearch) {
-            elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+とは+プログラミング`;
+            let suffix = 'とは+プログラミング';
+            if (this.currentCategory === 'design') suffix = 'とは+Webデザイン';
+            else if (this.currentCategory === 'pc') suffix = 'とは+パソコン用語';
+            else if (this.currentCategory === 'it') suffix = 'とは+IT用語';
+            elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+${suffix}`;
         }
 
         if (area) area.classList.add('hidden');

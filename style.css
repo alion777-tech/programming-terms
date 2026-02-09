@@ -236,6 +236,13 @@ header {
   border: 1px solid var(--glass-border);
 }
 
+.tag.active {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(129, 140, 248, 0.4);
+}
+
 /* Flip Card */
 .flip-card-container {
   perspective: 1000px;

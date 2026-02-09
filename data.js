@@ -350,3 +350,107 @@ const programmingTerms = [
     { id: "pg_299", term: "Migration", reading: "移行（マイグレーション）", definition: "古い仕組みから新しい仕組みへ移し替えること。", category: "保守・運用" },
     { id: "pg_300", term: "Abstraction Level", reading: "詳細度 / 抽象レベル", definition: "どれだけ具体的な細部を見ているか（高レベル・低レベル）。", category: "設計・理論" }
 ];
+
+/**
+ * Webデザイン用語データ
+ */
+const webDesignTerms = [
+    { id: "wd_001", term: "UI", reading: "ユーザーインターフェース", definition: "ユーザーと製品・サービスの接触面。ボタンやレイアウトなどの見た目。", category: "デザイン基礎" },
+    { id: "wd_002", term: "UX", reading: "ユーザーエクスペリエンス", definition: "製品・サービスを通じて得られるユーザーの体験全体。", category: "デザイン基礎" },
+    { id: "wd_003", term: "Typography", reading: "タイポグラフィ", definition: "文字を適切に配置し、読みやすさや美しさを調整する技法。", category: "デザイン基礎" },
+    { id: "wd_004", term: "White Space", reading: "ホワイトスペース（余白）", definition: "要素間の空白。情報の整理や視界の誘導に重要な役割を持つ。", category: "デザイン基礎" },
+    { id: "wd_005", term: "Visual Hierarchy", reading: "視覚的階層", definition: "要素の重要度に応じて強弱をつけ、見る順序をコントロールすること。", category: "デザイン基礎" },
+    { id: "wd_006", term: "Contrast", reading: "コントラスト", definition: "色やサイズの差をつけて、要素を強調したり区別したりすること。", category: "デザイン基礎" },
+    { id: "wd_007", term: "Color Theory", reading: "色彩設計", definition: "色が与える心理的影響や、調和のとれた配色を選ぶための理論。", category: "デザイン基礎" },
+    { id: "wd_008", term: "Accessibility", reading: "アクセシビリティ", definition: "障がいの有無や環境に関わらず、誰もが情報にアクセスできること。", category: "デザイン基礎" },
+    { id: "wd_009", term: "Responsive Design", reading: "レスポンシブデザイン", definition: "画面サイズに応じてレイアウトを最適化する設計手法。", category: "デザイン基礎" },
+    { id: "wd_010", term: "Mobile First", reading: "モバイルファースト", definition: "スマホでの閲覧を最優先に考えてデザイン・設計する考え方。", category: "デザイン基礎" },
+
+    { id: "wd_011", term: "Grid System", reading: "グリッドシステム", definition: "画面を格子状に分割し、要素を整列させて配置する手法。", category: "レイアウト" },
+    { id: "wd_012", term: "Flexbox", reading: "フレックスボックス", definition: "要素を横や縦に並べ、柔軟にサイズ調整を行うための手法。", category: "レイアウト" },
+    { id: "wd_013", term: "Breakpoint", reading: "ブレイクポイント", definition: "画面サイズに応じてレイアウトが切り替わる基準の横幅。", category: "レイアウト" },
+    { id: "wd_014", term: "Hero Image", reading: "ヒーローイメージ", definition: "Webサイトのトップに配置される、目を引く大きな画像や動画。", category: "レイアウト" },
+    { id: "wd_015", term: "Hamburger Menu", reading: "ハンバーガーメニュー", definition: "三本線のアイコンで表される、開閉式のメニュー。", category: "レイアウト" },
+
+    { id: "wd_016", term: "Hex Code", reading: "カラーコード", definition: "#FFFFFFのように、16進数で色を表現するコード。", category: "色彩" },
+    { id: "wd_017", term: "RGB / RGBA", reading: "アールジービー", definition: "赤・緑・青の三原色。Aは透明度（アルファ）を表す。", category: "色彩" },
+    { id: "wd_018", term: "HSL", reading: "エイチエスエル", definition: "色相(Hue)、彩度(Saturation)、輝度(Lightness)による色の指定。", category: "色彩" },
+    { id: "wd_019", term: "Gradient", reading: "グラデーション", definition: "色が段階的に変化する表現。", category: "色彩" },
+    { id: "wd_020", term: "Saturation", reading: "彩度（さいど）", definition: "色の鮮やかさの度合い。", category: "色彩" },
+
+    { id: "wd_021", term: "Serif", reading: "セリフ", definition: "文字の端に小さな飾りがある書体（明朝体など）。", category: "フォント" },
+    { id: "wd_022", term: "Sans-serif", reading: "サンセリフ", definition: "文字の端に飾りがなく、太さが一定の書体（ゴシック体など）。", category: "フォント" },
+    { id: "wd_023", term: "Kerning", reading: "カーニング", definition: "特定の文字間の隙間を微調整する作業。", category: "フォント" },
+    { id: "wd_024", term: "Line Height", reading: "行間（ぎょうかん）", definition: "行と行の間の垂直方向の間隔。", category: "フォント" },
+    { id: "wd_025", term: "System Font", reading: "システムフォント", definition: "OSに標準で搭載されているフォント。", category: "フォント" },
+
+    { id: "wd_026", term: "Wireframe", reading: "ワイヤーフレーム", definition: "画面の構成要素を線と枠で示した設計図。", category: "プロセス" },
+    { id: "wd_027", term: "Prototype", reading: "プロトタイプ", definition: "動作を確認するために作られる、試作モデル。", category: "プロセス" },
+    { id: "wd_028", term: "Mockup", reading: "モックアップ", definition: "プロトタイプより視覚的な完成度を高めた模型。", category: "プロセス" },
+    { id: "wd_029", term: "Mood board", reading: "ムードボード", definition: "デザインの雰囲気や方向性を伝えるための画像集。", category: "プロセス" },
+    { id: "wd_030", term: "Design System", reading: "デザインシステム", definition: "デザインのルールやコンポーネントをまとめた資産。", category: "プロセス" },
+
+    { id: "wd_031", term: "SVG", reading: "エスブイジー", definition: "拡大しても画像が劣化しないベクター形式の画像データ。", category: "グラフィック" },
+    { id: "wd_032", term: "Raster", reading: "ラスター画像", definition: "ドットの集合で構成される画像（JPGやPNGなど）。", category: "グラフィック" },
+    { id: "wd_033", term: "Vector", reading: "ベクター画像", definition: "数式で表現される画像。拡大縮小に強い。", category: "グラフィック" },
+    { id: "wd_034", term: "Aspect Ratio", reading: "アスペクト比", definition: "画面や画像の縦横比。", category: "グラフィック" },
+    { id: "wd_035", term: "Favicon", reading: "ファビコン", definition: "ブラウザのタブなどに表示される小さなアイコン。", category: "グラフィック" },
+
+    { id: "wd_036", term: "Affordance", reading: "アフォーダンス", definition: "形などから、使い方が直感的に推測できる性質。", category: "UX" },
+    { id: "wd_037", term: "Flat Design", reading: "フラットデザイン", definition: "立体感を排除し、単純な要素で構成するデザイン。", category: "デザイン手法" },
+    { id: "wd_038", term: "Neumorphism", reading: "ニューモーフィズム", definition: "背景から浮き出たような、柔らかい立体感を出すデザイン。", category: "デザイン手法" },
+    { id: "wd_039", term: "Glassmorphism", reading: "グラスモーフィズム", definition: "すりガラスのような透明感とぼかしを使ったデザイン。", category: "デザイン手法" },
+    { id: "wd_040", term: "Micro interaction", reading: "マイクロインタラクション", definition: "特定の動作に対して発生する、小さな視覚フィードバック。", category: "UX" }
+];
+
+/**
+ * パソコン用語データ
+ */
+const pcTerms = [
+    { id: "pc_001", term: "CPU", reading: "シーピーユー", definition: "コンピュータの「頭脳」にあたる、演算や制御を行う中心的な部品。", category: "ハードウェア" },
+    { id: "pc_002", term: "Memory (RAM)", reading: "メモリ", definition: "データを一時的に記憶する場所。作業机の広さに例えられる。", category: "ハードウェア" },
+    { id: "pc_003", term: "Storage (SSD/HDD)", reading: "ストレージ", definition: "データを長期的に保存する場所。本棚や倉庫に例えられる。", category: "ハードウェア" },
+    { id: "pc_004", term: "OS", reading: "オーエス", definition: "WindowsやMacなど、コンピュータ全体を管理・制御する基本ソフト。", category: "ソフトウェア" },
+    { id: "pc_005", term: "Motherboard", reading: "マザーボード", definition: "CPUやメモリなど、主要な電子部品を装着する基盤。", category: "ハードウェア" },
+    { id: "pc_006", term: "GPU", reading: "ジーピーユー", definition: "画像処理に特化した演算装置。動画編集やゲームに重要。", category: "ハードウェア" },
+    { id: "pc_007", term: "USB", reading: "ユーエスビー", definition: "周辺機器を接続するための最も一般的な規格。", category: "インターフェース" },
+    { id: "pc_008", term: "Wi-Fi", reading: "ワイファイ", definition: "無線でネットワークに接続する技術規格。", category: "ネットワーク" },
+    { id: "pc_009", term: "Keyboard", reading: "キーボード", definition: "文字や数値、命令を入力するための主要な入力機器。", category: "ハードウェア" },
+    { id: "pc_010", term: "Display", reading: "ディスプレイ（モニター）", definition: "情報の処理結果を画像として表示する出力機器。", category: "ハードウェア" },
+    { id: "pc_011", term: "Driver", reading: "ドライバ", definition: "OSが周辺機器を認識・操作するためのプログラム。", category: "ソフトウェア" },
+    { id: "pc_012", term: "Default", reading: "デフォルト", definition: "設定や操作において、最初から選ばれている標準の状態。", category: "操作" },
+    { id: "pc_013", term: "Reboot", reading: "再起動", definition: "PCの電源を一度切り、再び立ち上げること。不具合解消の基本。", category: "操作" },
+    { id: "pc_014", term: "Cache", reading: "キャッシュ", definition: "一度使ったデータを一時保存し、次回の表示を速くする仕組み。", category: "基礎" },
+    { id: "pc_015", term: "Format", reading: "初期化（フォーマット）", definition: "ストレージのデータをすべて消去し、使える状態に整えること。", category: "操作" },
+    { id: "pc_016", term: "Resolution", reading: "解像度", definition: "画面の精細さを表す数値（px）。高いほど映像が綺麗。", category: "ディスプレイ" },
+    { id: "pc_017", term: "Bluetooth", reading: "ブルートゥース", definition: "近距離でワイヤレス接続を行うための通信規格。", category: "ネットワーク" },
+    { id: "pc_018", term: "Router", reading: "ルーター", definition: "複数の機器をネットワークに接続し、データの交通整理をする装置。", category: "ネットワーク" },
+    { id: "pc_019", term: "Browser", reading: "ブラウザ", definition: "Webサイトを閲覧するためのソフト（Chrome, Safari等）。", category: "ソフトウェア" },
+    { id: "pc_020", term: "Shortcut", reading: "ショートカット", definition: "キー操作などで特定の機能を素早く実行する機能。", category: "操作" }
+];
+
+/**
+ * IT用語データ
+ */
+const itTerms = [
+    { id: "it_001", term: "Cloud Computing", reading: "クラウド", definition: "インターネット経由でサーバやストレージ、ソフトを利用する形態。", category: "IT全般" },
+    { id: "it_002", term: "Big Data", reading: "ビッグデータ", definition: "通常のシステムでは処理困難な、膨大で多様なデータの集まり。", category: "IT全般" },
+    { id: "it_003", term: "IoT", reading: "モノのインターネット", definition: "家電や車など、あらゆるモノがネットに繋がり情報をやり取りすること。", category: "先端技術" },
+    { id: "it_004", term: "AI", reading: "人工知能", definition: "コンピュータに人間のような知的な処理をさせる技術の総称。", category: "先端技術" },
+    { id: "it_005", term: "DX", reading: "デジタルトランスフォーメーション", definition: "IT浸透により、人々の生活やビジネスを良い方向に変革すること。", category: "ビジネス" },
+    { id: "it_006", term: "SaaS", reading: "サース", definition: "必要な機能をネット経由で利用するソフトウェアの提供形態。", category: "ビジネス" },
+    { id: "it_007", term: "Open Source", reading: "オープンソース", definition: "設計図（ソースコード）が公開され、誰でも改良・配布できるソフト。", category: "IT全般" },
+    { id: "it_008", term: "Cyber Security", reading: "サイバーセキュリティ", definition: "デジタルデータの改ざんや漏洩、サイバー攻撃から守ること。", category: "セキュリティ" },
+    { id: "it_009", term: "Phishing", reading: "フィッシング詐欺", definition: "偽サイトに誘導し、パスワードやカード情報を盗む手法。", category: "セキュリティ" },
+    { id: "it_010", term: "Blockchain", reading: "ブロックチェーン", definition: "取引履歴を暗号技術で繋ぎ、改ざんを極めて困難にする技術。", category: "先端技術" },
+    { id: "it_011", term: "Machine Learning", reading: "機械学習", definition: "データから学習し、法則性や判断基準を自動で見つけ出すAIの一種。", category: "先端技術" },
+    { id: "it_012", term: "Algorithm", reading: "アルゴリズム", definition: "問題を解決するための効率的な手順や計算方法。", category: "IT基礎" },
+    { id: "it_013", term: "API", reading: "エーピーアイ", definition: "異なるソフトやサービス同士を連携させ、機能を共有する仕組み。", category: "IT基礎" },
+    { id: "it_014", term: "Server", reading: "サーバ", definition: "データやネットのサービスを、要求に応じて提供するコンピュータ。", category: "IT基礎" },
+    { id: "it_015", term: "Encryption", reading: "暗号化", definition: "データを特定のルールで変換し、第三者に読めなくすること。", category: "セキュリティ" },
+    { id: "it_016", term: "Agile Development", reading: "アジャイル開発", definition: "小さな単位で設計・実装・テストを短期間で繰り返す開発手法。", category: "ビジネス" },
+    { id: "it_017", term: "Domain", reading: "ドメイン", definition: "インターネット上の住所のようなもの（example.com等）。", category: "ネットワーク" },
+    { id: "it_018", term: "Database", reading: "データベース", definition: "大量のデータを整理し、検索や抽出を容易にした情報の集まり。", category: "IT基礎" },
+    { id: "it_019", term: "Malware", reading: "マルウェア", definition: "ウイルスなど、悪意を持って作られたプログラムの総称。", category: "セキュリティ" },
+    { id: "it_020", term: "Remote Work", reading: "リモートワーク", definition: "拠点から離れ、IT技術を活用して場所にとらわれず働くこと。", category: "ビジネス" }
+];
