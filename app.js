@@ -197,6 +197,12 @@ class TermApp {
             if (elBackTerm) elBackTerm.textContent = term.term;
             if (elDef) elDef.textContent = term.definition;
             if (elCat) elCat.textContent = term.category;
+
+            // Google検索リンクの更新
+            const elSearch = document.getElementById('learn-google-link');
+            if (elSearch) {
+                elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+とは+プログラミング`;
+            }
         }, 250);
     }
 
@@ -257,6 +263,12 @@ class TermApp {
         if (elTerm) elTerm.textContent = term.term;
         if (elRead) elRead.textContent = term.reading;
         if (elDef) elDef.textContent = term.definition;
+
+        // Google検索リンクの更新 (テストモード用)
+        const elSearch = document.getElementById('test-google-link');
+        if (elSearch) {
+            elSearch.href = `https://www.google.com/search?q=${encodeURIComponent(term.term)}+とは+プログラミング`;
+        }
 
         if (area) area.classList.add('hidden');
         if (btnShow) btnShow.classList.remove('hidden');

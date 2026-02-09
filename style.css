@@ -78,8 +78,13 @@ body {
 }
 
 @keyframes move {
-  from { transform: translate(0, 0); }
-  to { transform: translate(100px, 50px); }
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(100px, 50px);
+  }
 }
 
 /* Glassmorphism */
@@ -123,8 +128,15 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Header & Typography */
@@ -244,7 +256,8 @@ header {
   transform: rotateY(180deg);
 }
 
-.card-front, .card-back {
+.card-front,
+.card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -274,8 +287,15 @@ header {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Status Buttons */
@@ -298,12 +318,25 @@ header {
   font-size: 0.85rem;
 }
 
-.btn-status:active { transform: scale(0.95); }
+.btn-status:active {
+  transform: scale(0.95);
+}
 
-.s1 { background: var(--status-1); }
-.s2 { background: var(--status-2); }
-.s3 { background: var(--status-3); }
-.s4 { background: var(--status-4); }
+.s1 {
+  background: var(--status-1);
+}
+
+.s2 {
+  background: var(--status-2);
+}
+
+.s3 {
+  background: var(--status-3);
+}
+
+.s4 {
+  background: var(--status-4);
+}
 
 /* Test Mode UI */
 .test-options {
@@ -375,7 +408,9 @@ header {
   justify-content: center;
 }
 
-.test-question h2 { font-size: 2rem; }
+.test-question h2 {
+  font-size: 2rem;
+}
 
 .btn-show-answer {
   width: 100%;
@@ -404,10 +439,17 @@ header {
   cursor: pointer;
 }
 
-.correct { background: var(--success); }
-.incorrect { background: var(--error); }
+.correct {
+  background: var(--success);
+}
 
-.hidden { display: none; }
+.incorrect {
+  background: var(--error);
+}
+
+.hidden {
+  display: none;
+}
 
 /* Result Area */
 .score-circle {
@@ -455,6 +497,32 @@ header {
   background: rgba(129, 140, 248, 0.1);
   padding: 4px 12px;
   border-radius: 4px;
+}
+
+.btn-search {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+  background: rgba(129, 140, 248, 0.1);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.btn-search.small {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
 }
 
 .screen-header {
